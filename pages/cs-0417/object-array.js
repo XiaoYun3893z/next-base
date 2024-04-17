@@ -145,6 +145,7 @@ export default function ObjectArray() {
       <br />
       <button
         onClick={() => {
+          // 第一種: 用filter過濾
           // 過濾後剩下除了id為4之外的物件資料 === 刪除id為4的物件資料
           // const nextData = data.filter((v, i) => {
           //   return v.id !== 4
@@ -152,7 +153,7 @@ export default function ObjectArray() {
           // //3
           // setData(nextData)
 
-          // 改用splice進行刪除
+          // 第二種: 用splice進行刪除
           // 先尋找有沒有這筆資料(id=4)
           const foundIndex = data.findIndex((v) => v.id === 4)
           // 需要判斷是否有找到
@@ -171,7 +172,7 @@ export default function ObjectArray() {
       <br />
       <button
         onClick={() => {
-          // 用splice進行插入
+          // 第一種: 用splice進行插入
           // 先尋找有沒有這筆資料(id=2)
           const foundIndex = data.findIndex((v) => v.id === 2)
           // 需要判斷是否有找到
@@ -187,6 +188,42 @@ export default function ObjectArray() {
             // 3
             setData(nextData)
           }
+
+          // 第二種: 用slice進行插入
+          // 尋找id=2的索引
+          // const foundIndex = data.findIndex((v) => v.id === 2)
+          // // 如果有找到
+          // if (foundIndex > -1) {
+          //   // 先寫出要新增的物件值
+          //   const newObj = { id: 5, text: 'bbb' }
+          //   // 從該索引值建立兩個新的子女陣列
+          //   // 公式: array.slice(startIndex, endIndex)
+          //   const aa = data.slice(0, foundIndex + 1)
+          //   const ab = data.slice(foundIndex + 1)
+          //   // 合併新物件建立新的狀態陣列
+          //   const nextData = [...aa, newObj, ...ab]
+          //   //3
+          //   setData(nextData)
+          // }
+
+          // 第三種: 用for迴圈來完成命題
+          // // 新狀態
+          // const nextData = []
+
+          // // 用for迴圈把所有data的值循環一遍
+          // for (let i = 0; i < data.length; i++) {
+          //   // 固定把data中的成員加入新狀態陣列中
+          //   nextData.push(data[i])
+          //   // 如果id為2，在它後面多插入一個新物件
+          //   if (data[i].id === 2) {
+          //     nextData.push({ id: 5, text: 'bbb' })
+          //   }
+          // }
+
+          // // 判斷如果nextData比data成員多，代表有新的值
+          // if (nextData.length > data.length) {
+          //   setData(nextData)
+          // }
         }}
       >
         8. 在id為2後面插入id為5與文字為bbb的物件
