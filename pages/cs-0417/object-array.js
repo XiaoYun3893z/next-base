@@ -146,17 +146,49 @@ export default function ObjectArray() {
       <button
         onClick={() => {
           // 過濾後剩下除了id為4之外的物件資料 === 刪除id為4的物件資料
-          const nextData = data.filter((v, i) => {
-            return v.id !== 4
-          })
-          //3
-          setData(nextData)
+          // const nextData = data.filter((v, i) => {
+          //   return v.id !== 4
+          // })
+          // //3
+          // setData(nextData)
+
+          // 改用splice進行刪除
+          // 先尋找有沒有這筆資料(id=4)
+          const foundIndex = data.findIndex((v) => v.id === 4)
+          // 需要判斷是否有找到
+          if (foundIndex > -1) {
+            // 1. 深拷貝
+            const nextData = JSON.parse(JSON.stringify(data))
+            // 2. 刪除公式: array.splice(deleteIndex, 1)
+            nextData.splice(foundIndex, 1)
+            // 3
+            setData(nextData)
+          }
         }}
       >
         7. 刪除id為4的物件資料
       </button>
       <br />
-      <button onClick={() => {}}>
+      <button
+        onClick={() => {
+          // 用splice進行插入
+          // 先尋找有沒有這筆資料(id=2)
+          const foundIndex = data.findIndex((v) => v.id === 2)
+          // 需要判斷是否有找到
+          if (foundIndex > -1) {
+            // 要加入的物件
+            const newObj = { id: 5, text: 'bbb' }
+            // 1. 深拷貝
+            const nextData = JSON.parse(JSON.stringify(data))
+            // 2. 插入公式:
+            // 插入前面 array.splice(insertIndex, 0, value)
+            // 插入後面 array.splice(insertIndex+1, 0, value)
+            nextData.splice(foundIndex + 1, 0, newObj)
+            // 3
+            setData(nextData)
+          }
+        }}
+      >
         8. 在id為2後面插入id為5與文字為bbb的物件
       </button>
       <br />
