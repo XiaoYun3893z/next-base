@@ -1,14 +1,13 @@
 // 導入時就自動轉為JS資料格式
 // 這邊不能引入css，需在 _app.js 中引入
 import products from '@/data/Product.json'
-import styles from '@/styles/product-table.module.css'
 
 export default function ProductTable() {
   console.log(products)
 
   return (
     <>
-      <table className={styles['my-table']}>
+      <table>
         <thead>
           <tr>
             <th>ID</th>
