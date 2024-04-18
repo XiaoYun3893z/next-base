@@ -3,7 +3,7 @@ import { useState } from 'react'
 import styles from '@/styles/star.module.css'
 
 export default function Star() {
-  // 記錄點按時的評分
+  // 記錄點按時的評分，一開始是0分代表沒有評分
   const [rating, setRating] = useState(0)
 
   return (
@@ -13,7 +13,7 @@ export default function Star() {
         {Array(5)
           .fill(1)
           .map((v, i) => {
-            // 每個星星圖示按鈕的分數
+            // 每個星星圖示按鈕的分數，相當於索引+1
             const score = i + 1
 
             return (
@@ -23,10 +23,12 @@ export default function Star() {
                 key={i}
                 className={styles['star-btn']}
                 onClick={() => {
+                  // 點按後設定分數
                   setRating(score)
                 }}
               >
                 <span
+                  // 判斷星星是否要點亮。如果這個星星的分數(score)小於等於目前的評分(rating)，則套用亮起樣式
                   className={score <= rating ? styles['on'] : styles['off']}
                 >
                   &#9733;
