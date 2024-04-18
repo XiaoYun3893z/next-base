@@ -6,6 +6,9 @@ export default function Star() {
   // 記錄點按時的評分，一開始是0分代表沒有評分
   const [rating, setRating] = useState(0)
 
+  // 滑鼠游標懸停(hover)
+  const [hoverRating, setHoverRating] = useState(0)
+
   return (
     <>
       <h1>星星評分範例</h1>
@@ -26,10 +29,22 @@ export default function Star() {
                   // 點按後設定分數
                   setRating(score)
                 }}
+                onMouseEnter={() => {
+                  // 滑鼠游標進入設定分數
+                  setHoverRating(score)
+                }}
+                onMouseLeave={() => {
+                  // 滑鼠游標離開設定回初始0分
+                  setHoverRating(0)
+                }}
               >
                 <span
                   // 判斷星星是否要點亮。如果這個星星的分數(score)小於等於目前的評分(rating)，則套用亮起樣式
-                  className={score <= rating ? styles['on'] : styles['off']}
+                  className={
+                    score <= rating || score <= hoverRating
+                      ? styles['on']
+                      : styles['off']
+                  }
                 >
                   &#9733;
                 </span>
