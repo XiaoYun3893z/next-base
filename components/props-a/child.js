@@ -26,7 +26,10 @@ export default function Child({
   )
 }
 
-//  設定屬性的限制類型或是必填
+// 設定屬性的限制類型或是必填
+// 傳入的屬性值類型的檢查，參考檢查項目如下
+// https://zh-hans.legacy.reactjs.org/docs/typechecking-with-proptypes.html#proptypes
+// 注意名稱有開頭大寫和小寫的差異
 Child.propTypes = {
   title: PropTypes.string.isRequired,
   price: PropTypes.number,
