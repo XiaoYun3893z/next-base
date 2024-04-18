@@ -5,6 +5,7 @@ import styles from './star.module.css'
 export default function Star({
   initRating = 0, //初始的評分
   maxCount = 5, // 最多可評的分數(幾個星星圖)
+  onRatingChange = () => {}, // 點按後回傳評分的函式
 }) {
   // 記錄點按時的評分，一開始是0分代表沒有評分
   const [rating, setRating] = useState(initRating)
@@ -15,6 +16,10 @@ export default function Star({
   return (
     <>
       <div>
+        {/* 
+          這裡使用簡易建立5個陣列1...N的語法，可以參考:
+          https://github.com/orgs/mfee-react/discussions/50 
+        */}
         {Array(maxCount)
           .fill(1)
           .map((v, i) => {
@@ -30,6 +35,8 @@ export default function Star({
                 onClick={() => {
                   // 點按後設定分數
                   setRating(score)
+                  // 設定評分傳回
+                  onRatingChange(score)
                 }}
                 onMouseEnter={() => {
                   // 滑鼠游標進入設定分數
