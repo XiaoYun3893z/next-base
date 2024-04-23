@@ -6,7 +6,8 @@ export default function Star({
   initRating = 0, //初始的評分
   maxCount = 5, // 最多可評的分數(幾個星星圖)
   onRatingChange = () => {}, // 點按後回傳評分的函式
-  color = 'red',
+  color = 'red', // 套用顏色
+  icon = <>&#9733;</>, // 套用圖示元件
 }) {
   // 記錄點按時的評分，一開始是0分代表沒有評分
   const [rating, setRating] = useState(initRating)
@@ -59,7 +60,7 @@ export default function Star({
                       : styles['off']
                   }
                 >
-                  &#9733;
+                  {icon}
                 </span>
               </button>
             )

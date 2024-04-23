@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Star from '@/components/star'
+import { FaHeart, FaStar } from 'react-icons/fa'
 
 export default function StarPage() {
   const [rating1, setRating1] = useState(1)
@@ -14,7 +15,12 @@ export default function StarPage() {
       <hr />
       {/* 測試組 */}
       <p>目前rating1評分: {rating1}</p>
-      <Star initRating={rating1} onRatingChange={setRating1} color="green" />
+      <Star
+        initRating={rating1}
+        onRatingChange={setRating1}
+        color="pink"
+        icon={<FaHeart />}
+      />
       <hr />
       <p>目前rating2評分: {rating2}</p>
       <Star
@@ -22,6 +28,7 @@ export default function StarPage() {
         onRatingChange={setRating2}
         maxCount={8}
         color="#ff6600"
+        icon={<FaStar />}
       />
     </>
   )
