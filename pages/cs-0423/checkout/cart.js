@@ -4,43 +4,63 @@ import CartList from '@/components/checkout/cart-list'
 import styles from '@/components/checkout/cart.module.css'
 import { FaShoppingCart } from 'react-icons/fa'
 
-const sampleItems = [
-  {
-    id: 1,
-    sn: '09fdab8a-6185-4484-8bea-c47d85647d8b',
-    name: 'Modern Frozen Salad - PUMA 慢跑鞋',
-    photos: 't5.jpg,t4.jpg,t1.jpg',
-    stock: 90,
-    price: 1600,
-    info: 'The beautiful range of Apple Naturalé that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients',
-    brand_id: 3,
-    cat_id: 9,
-    color: '2,3,4,1',
-    tag: '2,1',
-    size: '3,4,1,2',
-    qty: 1,
-  },
-  {
-    id: 2,
-    sn: 'da94bfac-49e7-490e-b02b-7412e5942d0c',
-    name: 'Ergonomic Granite Bike - New Balance 長袖上衣',
-    photos: 't4.jpg,t5.jpg,t1.jpg',
-    stock: 20,
-    price: 6900,
-    info: 'The slim & simple Maple Gaming Keyboard from Dev Byte comes with a sleek body and 7- Color RGB LED Back-lighting for smart functionality',
-    brand_id: 4,
-    cat_id: 6,
-    color: '1,4,3,2',
-    tag: '2',
-    size: '3',
-    qty: 1,
-  },
-]
-
 export default function Cart() {
   // 加入到購物車的商品項目
   // 以其中的物件資料來比較，比product物件多了一個qty(數量)
-  const [items, setItems] = useState(sampleItems)
+  const [items, setItems] = useState([])
+
+  const increaseItem = (id) => {
+    // 1 2 展開每個成員
+    const nextItems = items.map((v, i) => {
+      // 如果符合條件(id=傳入id)，回傳物件要屬性qty+1
+      if (v.id === id) return { ...v, qty: v.qty + 1 }
+      // 否則回傳原本物件
+      else return v
+    })
+    // 3
+    setItems(nextItems)
+  }
+
+  const decreaseItem = (id) => {
+    // 1 2 展開每個成員
+    let nextItems = items.map((v, i) => {
+      // 如果符合條件(id=傳入id)，回傳物件要屬性qty-1
+      if (v.id === id) return { ...v, qty: v.qty - 1 }
+      // 否則回傳原本物件
+      else return v
+    })
+
+    // 過濾掉qty=0的item
+    nextItems = nextItems.filter((v) => v.qty > 0)
+
+    // 3
+    setItems(nextItems)
+  }
+
+  const removeItem = (id) => {
+    // 1 2
+    const nextItems = items.filter((v, i) => {
+      return v.id !== id
+    })
+    //3
+    setItems(nextItems)
+  }
+
+  const addItem = (product) => {
+    // 先尋找判斷是否已在購物車中
+    const foundIndex = items.findIndex((v) => v.id === product.id)
+
+    if (foundIndex > -1) {
+      // 如果有找到 ===> 遞增數量
+      increaseItem(product.id)
+    } else {
+      // 否則 ===> 新增商品
+      // 擴充商品物件多一個qty數字屬性，預設為1
+      const newItem = { ...product, qty: 1 }
+      const nextItems = [newItem, ...items]
+      setItems(nextItems)
+    }
+  }
 
   return (
     <>
@@ -59,11 +79,16 @@ export default function Cart() {
         </div>
         <h3>商品列表</h3>
         <div className={styles['product']}>
-          <ProductList />
+          <ProductList addItem={addItem} />
         </div>
         <h3>購物車</h3>
         <div className={styles['cart']}>
-          <CartList items={items} />
+          <CartList
+            items={items}
+            increaseItem={increaseItem}
+            decreaseItem={decreaseItem}
+            removeItem={removeItem}
+          />
         </div>
         <hr />
         <div>總數量: 123 / 總金額: 123000</div>
