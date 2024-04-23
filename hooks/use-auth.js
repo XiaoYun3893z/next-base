@@ -8,11 +8,44 @@ const AuthContext = createContext(null)
 // children指的是被包覆在ThemeProvider中的所有子女元件
 export function AuthProvider({ children }) {
   // 共享狀態
+  const [auth, setAuth] = useState({
+    isAuth: false,
+    userData: {
+      id: 0,
+      username: '',
+      email: '',
+      name: '',
+    },
+  })
+
+  const login = () => {
+    setAuth({
+      isAuth: true,
+      userData: {
+        id: 1,
+        username: 'herry',
+        email: 'herry@test.com',
+        name: '哈利',
+      },
+    })
+  }
+
+  const logout = () => {
+    setAuth({
+      isAuth: false,
+      userData: {
+        id: 0,
+        username: '',
+        email: '',
+        name: '',
+      },
+    })
+  }
 
   return (
     <AuthContext.Provider
       // 使用value屬性提供資料給元件階層以下的所有後代元件(如果是消費者的話)
-      value={{}}
+      value={{ auth, login, logout }}
     >
       {children}
     </AuthContext.Provider>
