@@ -10,6 +10,13 @@ export default function CartList({
   return (
     <>
       <ul className={styles['list']}>
+        <li className={styles['item']}>
+          <div className={styles['w-400']}>名稱</div>
+          <div>價格</div>
+          <div>數量</div>
+          <div>小計</div>
+          <div></div>
+        </li>
         {items.map((v, i) => {
           return (
             <li key={v.id} className={styles['item']}>
