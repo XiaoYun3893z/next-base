@@ -1,5 +1,6 @@
 .on {
-  color: gold;
+/* 利用CSS的變數來套用元件傳入動態的color屬性 */
+  color: var(--on-color);
 }
 
 .off {

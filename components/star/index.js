@@ -6,6 +6,7 @@ export default function Star({
   initRating = 0, //初始的評分
   maxCount = 5, // 最多可評的分數(幾個星星圖)
   onRatingChange = () => {}, // 點按後回傳評分的函式
+  color = 'red',
 }) {
   // 記錄點按時的評分，一開始是0分代表沒有評分
   const [rating, setRating] = useState(initRating)
@@ -49,6 +50,9 @@ export default function Star({
               >
                 <span
                   // 判斷星星是否要點亮。如果這個星星的分數(score)小於等於目前的評分(rating)，則套用亮起樣式
+                  // 利用style來協助套用css變數值
+                  style={{ '--on-color': color }}
+                  // 和原本的套用方式一樣，但在star.module.css中要改寫可以套用上面的'--on-color'
                   className={
                     score <= rating || score <= hoverRating
                       ? styles['on']
