@@ -79,6 +79,19 @@ export default function ControlledForm() {
     setMyPets(nextMyPets)
   }
 
+  // select
+  const cityOptions = [
+    '台北市',
+    '新北市',
+    '桃園市',
+    '台中市',
+    '台南市',
+    '高雄市',
+  ]
+
+  // 初始值為空白字串代表沒有選擇任何值
+  const [city, setCity] = useState('')
+
   return (
     <>
       <h1>可控表單元件範例</h1>
@@ -193,7 +206,7 @@ export default function ControlledForm() {
             type="checkbox"
             // 為了要連動所有的項目勾選(或取消勾選)要設定這個值
             // 全選不需要額外的react狀態，它的狀態是所有checkbox被選中計算出的狀態
-            // every會檢查回調測試函式中每一個成員都符合條件時，才會回傳true
+            // every會測試一個陣列中的每一個成員都能通過提供函式的測試時，才會回傳true
             checked={myPets.every((v) => v.checked)}
             onChange={handleToggleCheckAll}
           />
@@ -214,6 +227,26 @@ export default function ControlledForm() {
             </label>
           )
         })}
+      </div>
+      <div title="select">
+        <h2>下拉清單(select)</h2>
+        <select
+          // 在react的JSX語法中為了使用方便，有對select作了修改讓它可以用value屬性(類似textarea)
+          value={city}
+          onChange={(e) => {
+            setCity(e.target.value)
+          }}
+        >
+          {/* 為了要對應city狀態的初始值為空白字串，要加入這個選項值 */}
+          <option value="">請選擇城市</option>
+          {cityOptions.map((v, i) => {
+            return (
+              <option key={i} value={v}>
+                {v}
+              </option>
+            )
+          })}
+        </select>
       </div>
     </>
   )
