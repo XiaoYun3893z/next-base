@@ -23,6 +23,11 @@ export default function ControlledForm() {
     stringToDate('2024-01-01')
   )
 
+  // radio button group
+  const petOptions = ['狗', '貓', '倉鼠']
+  // 使用者從多個選項中選擇一個
+  const [pet, setPet] = useState('狗')
+
   return (
     <>
       <h1>可控表單元件範例</h1>
@@ -86,6 +91,27 @@ export default function ControlledForm() {
             setTextareaText(e.target.value)
           }}
         />
+      </div>
+      <div title="radio-button-group">
+        <h2>選項按鈕群組(radio-button-group)</h2>
+        {petOptions.map((v, i) => {
+          return (
+            <label key={i}>
+              <input
+                type="radio"
+                value={v}
+                // 每個radio會用v和目前的狀態(pet)來比較，相符才會是true
+                checked={pet === v}
+                onChange={(e) => {
+                  // 與上面的可控表單元件寫法類似
+                  // 或是寫為`setPet(v)`也可以
+                  setPet(e.target.value)
+                }}
+              />
+              {v}
+            </label>
+          )
+        })}
       </div>
     </>
   )
