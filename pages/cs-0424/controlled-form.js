@@ -69,6 +69,16 @@ export default function ControlledForm() {
     setMyPets(nextMyPets)
   }
 
+  // 處理全選的函式
+  const handleToggleCheckAll = (e) => {
+    // 強制讓所有選項物件中的checked屬性，和全選的e.target.checked完全一致
+    const nextMyPets = myPets.map((v, i) => {
+      return { ...v, checked: e.target.checked }
+    })
+
+    setMyPets(nextMyPets)
+  }
+
   return (
     <>
       <h1>可控表單元件範例</h1>
@@ -178,6 +188,18 @@ export default function ControlledForm() {
       </div>
       <div title="checkbox-group-2">
         <h2>核取方塊群組(checkbox-group)-物件陣列</h2>
+        <div>
+          <input
+            type="checkbox"
+            // 為了要連動所有的項目勾選(或取消勾選)要設定這個值
+            // 全選不需要額外的react狀態，它的狀態是所有checkbox被選中計算出的狀態
+            // every會檢查回調測試函式中每一個成員都符合條件時，才會回傳true
+            checked={myPets.every((v) => v.checked)}
+            onChange={handleToggleCheckAll}
+          />
+          全選
+        </div>
+        <hr />
         {myPets.map((v, i) => {
           return (
             <label key={v.id}>
