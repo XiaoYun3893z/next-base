@@ -96,7 +96,10 @@ export default function ControlledForm() {
         <h2>選項按鈕群組(radio-button-group)</h2>
         {petOptions.map((v, i) => {
           return (
-            <label key={i}>
+            <label
+              // 當初次render後不會再改動，即沒有新增、刪除、更動時，可以用索引當key
+              key={i}
+            >
               <input
                 type="radio"
                 value={v}
