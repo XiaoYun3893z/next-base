@@ -35,7 +35,7 @@ export default function CartList() {
     })
   }
 
-  // (callback寫法，會綁定id)
+  // (callback寫法，會綁定id)，另一種寫法在上課影片
   const notifyAndCallback = (productName = '', callback = () => {}) => {
     MySwal.fire({
       title: '真的確定嗎?',
