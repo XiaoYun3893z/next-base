@@ -28,6 +28,23 @@ export default function ControlledForm() {
   // 使用者從多個選項中選擇一個
   const [pet, setPet] = useState('狗')
 
+  // checkbox group - 字串陣列
+  const [pets, setPets] = useState(['狗'])
+
+  const handleCheckboxGroup = (e) => {
+    const tv = e.target.value
+    // 判斷是否有在pets陣列中
+    if (pets.includes(tv)) {
+      // 如果有===>移出陣列
+      const nextPets = pets.filter((v) => v !== tv)
+      setPets(nextPets)
+    } else {
+      // 否則===>加入陣列
+      const nextPets = [...pets, tv]
+      setPets(nextPets)
+    }
+  }
+
   return (
     <>
       <h1>可控表單元件範例</h1>
@@ -110,6 +127,25 @@ export default function ControlledForm() {
                   // 或是寫為`setPet(v)`也可以
                   setPet(e.target.value)
                 }}
+              />
+              {v}
+            </label>
+          )
+        })}
+      </div>
+      <div title="checkbox-group">
+        <h2>核取方塊群組(checkbox-group)-字串陣列</h2>
+        {petOptions.map((v, i) => {
+          return (
+            <label
+              // 當初次render後不會再改動，即沒有新增、刪除、更動時，可以用索引當key
+              key={i}
+            >
+              <input
+                type="checkbox"
+                value={v}
+                checked={pets.includes(v)}
+                onChange={handleCheckboxGroup}
               />
               {v}
             </label>
