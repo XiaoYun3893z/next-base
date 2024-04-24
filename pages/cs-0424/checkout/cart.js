@@ -1,10 +1,9 @@
-import { useState } from 'react'
-import ProductList from '@/components/checkout/product-list'
 import CartList from '@/components/checkout/cart-list'
 import styles from '@/components/checkout/cart.module.css'
-import { FaShoppingCart } from 'react-icons/fa'
-
+import Navbar from '@/components/checkout/navbar'
 import { useCart } from '@/hooks/use-cart'
+
+import Link from 'next/link'
 
 export default function Cart() {
   const { totalPrice, totalQty } = useCart()
@@ -12,23 +11,10 @@ export default function Cart() {
   return (
     <>
       <div className={styles['container']}>
-        <div className={styles['navbar']}>
-          <div className={styles['logo']}>網站Logo</div>
-          <div className={styles['header']}>
-            <h2>購物車範例</h2>
-          </div>
-          <div className={styles['badge']}>
-            <div className={styles['button']}>
-              <FaShoppingCart />
-              <span className={styles['button__badge']}>4</span>
-            </div>
-          </div>
-        </div>
-        <h3>商品列表</h3>
-        <div className={styles['product']}>
-          <ProductList />
-        </div>
+        <Navbar />
         <h3>購物車</h3>
+        <hr />
+        <Link href="/cs-0424/checkout/product">連至 商品頁</Link>
         <div className={styles['cart']}>
           <CartList />
         </div>

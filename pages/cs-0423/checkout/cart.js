@@ -4,9 +4,6 @@ import CartList from '@/components/checkout/cart-list'
 import styles from '@/components/checkout/cart.module.css'
 import { FaShoppingCart } from 'react-icons/fa'
 
-
-import { useCart } from '@/hooks/use-cart'
-
 export default function Cart() {
   // 加入到購物車的商品項目
   // 以其中的物件資料來比較，比product物件多了一個qty(數量)
