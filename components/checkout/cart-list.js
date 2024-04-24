@@ -1,12 +1,11 @@
 import React from 'react'
 import styles from './cart.module.css'
 
-export default function CartList({
-  items = [],
-  increaseItem = () => {},
-  decreaseItem = () => {},
-  removeItem = () => {},
-}) {
+import { useCart } from '@/hooks/use-cart'
+
+export default function CartList() {
+  const { items, increaseItem, decreaseItem, removeItem } = useCart()
+
   return (
     <>
       <ul className={styles['list']}>
@@ -14,6 +13,7 @@ export default function CartList({
           <div className={styles['w-400']}>名稱</div>
           <div>價格</div>
           <div>數量</div>
+          {/* 明天從小計功能解說起 */}
           <div>小計</div>
           <div></div>
         </li>
@@ -39,6 +39,7 @@ export default function CartList({
                   -
                 </button>
               </div>
+              <div>{v.subTotal}</div>
               <div>
                 <button
                   onClick={() => {

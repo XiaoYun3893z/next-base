@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import ProductList from '@/components/checkout/product-list'
-import CartList from '@/components/checkout/cart-list'
-import styles from '@/components/checkout/cart.module.css'
-import { FaShoppingCart } from 'react-icons/fa'
+import { createContext, useContext, useState } from 'react'
 
+// 1.建立與導出它:
+const CartContext = createContext(null)
 
-import { useCart } from '@/hooks/use-cart'
-
-export default function Cart() {
+// 2. 建立一個Context Provider(提供者)元件
+// 目的: 提供給最上層元件(_app.js)方便使用，共享狀態在這裡面統一管理
+// children指的是被包覆在ThemeProvider中的所有子女元件
+export function CartProvider({ children }) {
+  // 共享狀態
   // 加入到購物車的商品項目
   // 以其中的物件資料來比較，比product物件多了一個qty(數量)
   const [items, setItems] = useState([])
@@ -68,60 +68,45 @@ export default function Cart() {
   }
 
   // 計算總金額
-  const calcTotalPrice = (items) => {
-    let total = 0
-    for (let i = 0; i < items.length; i++) {
-      total += items[i].qty * items[i].price
-    }
-    return total
-  }
+  // const calcTotalPrice = (items) => {
+  //   let total = 0
+  //   for (let i = 0; i < items.length; i++) {
+  //     total += items[i].qty * items[i].price
+  //   }
+  //   return total
+  // }
 
-  // 計算總數量
-  const calcTotalQty = (items) => {
-    let total = 0
-    for (let i = 0; i < items.length; i++) {
-      total += items[i].qty
-    }
-    return total
-  }
+  // // 計算總數量
+  // const calcTotalQty = (items) => {
+  //   let total = 0
+  //   for (let i = 0; i < items.length; i++) {
+  //     total += items[i].qty
+  //   }
+  //   return total
+  // }
 
   // 用陣列迭代方法 reduce(累加/歸納)來計算總金額和數量
   const totalQty = items.reduce((acc, v) => acc + v.qty, 0)
   const totalPrice = items.reduce((acc, v) => acc + v.qty * v.price, 0)
 
   return (
-    <>
-      <div className={styles['container']}>
-        <div className={styles['navbar']}>
-          <div className={styles['logo']}>網站Logo</div>
-          <div className={styles['header']}>
-            <h2>購物車範例</h2>
-          </div>
-          <div className={styles['badge']}>
-            <div className={styles['button']}>
-              <FaShoppingCart />
-              <span className={styles['button__badge']}>4</span>
-            </div>
-          </div>
-        </div>
-        <h3>商品列表</h3>
-        <div className={styles['product']}>
-          <ProductList addItem={addItem} />
-        </div>
-        <h3>購物車</h3>
-        <div className={styles['cart']}>
-          <CartList
-            items={items}
-            increaseItem={increaseItem}
-            decreaseItem={decreaseItem}
-            removeItem={removeItem}
-          />
-        </div>
-        <hr />
-        <div>
-          總數量: {totalQty} / 總金額: {totalPrice}
-        </div>
-      </div>
-    </>
+    <CartContext.Provider
+      // 使用value屬性提供資料給元件階層以下的所有後代元件(如果是消費者的話)
+      value={{
+        items,
+        addItem,
+        decreaseItem,
+        increaseItem,
+        removeItem,
+        totalPrice,
+        totalQty,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
   )
 }
+
+// 3. 建立一個包裝useContext的專用名稱函式
+// 目的: 讓消費者們(consumer)方便使用，呼叫useXXXX就可以取得共享狀態
+export const useCart = () => useContext(CartContext)
