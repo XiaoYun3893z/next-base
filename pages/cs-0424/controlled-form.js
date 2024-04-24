@@ -7,6 +7,21 @@ export default function ControlledForm() {
   const [textareaText, setTextareaText] = useState('')
   // 顯示密碼的核取方塊用
   const [showPassword, setShowPassword] = useState(false)
+  // input-date
+  // 輸入進來的文字格式是yyyy-mm-dd字串
+  const [inputDateText, setInputDateText] = useState('')
+
+  // 時間日期物件與yyyy-mm-dd字串互轉的兩個函式
+  // 時間日期物件 ===> yyyy-mm-dd字串
+  const dateToString = (date = null) =>
+    date instanceof Date ? date.toISOString().split('T')[0] : ''
+  // yyyy-mm-dd字串 ===> 時間日期物件
+  const stringToDate = (str) => new Date(str)
+  // input-date
+  // 記錄的是時間日期物件
+  const [inputDateObject, setInputDateObject] = useState(
+    stringToDate('2024-01-01')
+  )
 
   return (
     <>
@@ -43,6 +58,24 @@ export default function ControlledForm() {
           }}
         />
         顯示密碼
+        <h2>日期輸入框(input-date)- 字串</h2>
+        <input
+          type="date"
+          value={inputDateText}
+          onChange={(e) => {
+            setInputDateText(e.target.value)
+          }}
+        />
+        <h2>日期輸入框(input-date) - 物件</h2>
+        <input
+          type="date"
+          // 呈現時轉為字串值
+          value={dateToString(inputDateObject)}
+          onChange={(e) => {
+            // 進入狀態時，要轉回時間日期物件
+            setInputDateObject(stringToDate(e.target.value))
+          }}
+        />
       </div>
       <div title="textarea">
         <h2>文字輸入區域(textarea)</h2>
