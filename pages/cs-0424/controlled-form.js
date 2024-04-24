@@ -31,7 +31,9 @@ export default function ControlledForm() {
   // checkbox group - 字串陣列
   const [pets, setPets] = useState(['狗'])
 
+  // 處理核取方塊change事件的函式
   const handleCheckboxGroup = (e) => {
+    // 宣告方便使用的tv名稱，取得觸發事件物件的目標值
     const tv = e.target.value
     // 判斷是否有在pets陣列中
     if (pets.includes(tv)) {
@@ -43,6 +45,28 @@ export default function ControlledForm() {
       const nextPets = [...pets, tv]
       setPets(nextPets)
     }
+  }
+
+  // checkbox group - 物件陣列
+  // 設定到初始狀態前，先擴增一個代表是否有選中的屬性checked(布林，預設為false)
+  const initState = petOptions.map((v, i) => {
+    return { id: i + 1, label: v, checked: false }
+  })
+
+  // 使用物件陣列狀態
+  const [myPets, setMyPets] = useState(initState)
+
+  // 處理checked切換布林的函式
+  const handleToggleChecked = (id) => {
+    // 1 2 展開每個成員
+    const nextMyPets = myPets.map((v, i) => {
+      // 如果符合條件(id相等傳入id)，屬性checked的值邏輯反相(true=>false, false=>true)
+      if (v.id === id) return { ...v, checked: !v.checked }
+      // 否則回傳原本物件
+      else return v
+    })
+    // 3
+    setMyPets(nextMyPets)
   }
 
   return (
@@ -133,7 +157,7 @@ export default function ControlledForm() {
           )
         })}
       </div>
-      <div title="checkbox-group">
+      <div title="checkbox-group-1">
         <h2>核取方塊群組(checkbox-group)-字串陣列</h2>
         {petOptions.map((v, i) => {
           return (
@@ -148,6 +172,23 @@ export default function ControlledForm() {
                 onChange={handleCheckboxGroup}
               />
               {v}
+            </label>
+          )
+        })}
+      </div>
+      <div title="checkbox-group-2">
+        <h2>核取方塊群組(checkbox-group)-物件陣列</h2>
+        {myPets.map((v, i) => {
+          return (
+            <label key={v.id}>
+              <input
+                type="checkbox"
+                checked={v.checked}
+                onChange={() => {
+                  handleToggleChecked(v.id)
+                }}
+              />
+              {v.label}
             </label>
           )
         })}
