@@ -2,11 +2,15 @@ import React from 'react'
 import products from '@/data/Product.json'
 import styles from './cart.module.css'
 import { useCart } from '@/hooks/use-cart'
+import toast, { Toaster } from 'react-hot-toast'
 
 export default function ProductList() {
   // console.log(products)
 
   const { addItem } = useCart()
+
+  const notify = (productName) =>
+    toast.success(productName + ' 已成功加入購物車')
 
   return (
     <>
@@ -20,6 +24,8 @@ export default function ProductList() {
                 <button
                   onClick={() => {
                     addItem(v)
+
+                    notify(v.name)
                   }}
                 >
                   加入購物車
@@ -29,6 +35,8 @@ export default function ProductList() {
           )
         })}
       </ul>
+      {/* 用於土司訊息的元件 */}
+      <Toaster />
     </>
   )
 }
