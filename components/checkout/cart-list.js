@@ -1,10 +1,64 @@
 import React from 'react'
 import styles from './cart.module.css'
-
 import { useCart } from '@/hooks/use-cart'
+// 引入Swal
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 export default function CartList() {
   const { items, increaseItem, decreaseItem, removeItem } = useCart()
+
+  // 要改用sweetalert2-react-content來取代Swal
+  const MySwal = withReactContent(Swal)
+
+  const notifyAndRemove = (productName = '', productId = 0) => {
+    MySwal.fire({
+      title: '真的確定嗎?',
+      text: '你將無法回復這個操作!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: '取消',
+      confirmButtonText: '確定刪除',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        MySwal.fire({
+          title: '已刪除!',
+          text: productName + ' 已從購物車中刪除',
+          icon: 'success',
+        })
+
+        // 這裡作刪除的動作
+        removeItem(productId)
+      }
+    })
+  }
+
+  // (callback寫法，會綁定id)
+  const notifyAndCallback = (productName = '', callback = () => {}) => {
+    MySwal.fire({
+      title: '真的確定嗎?',
+      text: '你將無法回復這個操作!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: '取消',
+      confirmButtonText: '確定刪除',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        MySwal.fire({
+          title: '已刪除!',
+          text: productName + ' 已從購物車中刪除',
+          icon: 'success',
+        })
+
+        // 這裡作刪除的動作
+        callback()
+      }
+    })
+  }
 
   return (
     <>
@@ -43,7 +97,11 @@ export default function CartList() {
               <div>
                 <button
                   onClick={() => {
-                    removeItem(v.id)
+                    // 改為跳出對話盒後，按確定才會刪除
+                    notifyAndRemove(v.name, v.id)
+
+                    // 改為跳出對話盒後，按確定執行某個函式
+                    // notifyAndCallback(v.name, () => removeItem(v.id))
                   }}
                 >
                   移除
