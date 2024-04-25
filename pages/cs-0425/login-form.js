@@ -1,8 +1,14 @@
 import { useState } from 'react'
 
 export default function LoginForm() {
-  // 狀態為物件，物件的屬性名稱要對應到欄位的名稱
+  // 記錄欄位輸入資料，狀態為物件，物件的屬性名稱要對應到欄位的名稱
   const [user, setUser] = useState({
+    username: '',
+    password: '',
+  })
+
+  // 記錄欄位錯誤訊息的狀態
+  const [errors, setErrors] = useState({
     username: '',
     password: '',
   })
@@ -21,10 +27,45 @@ export default function LoginForm() {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
 
+  // 表單送出事件處理函式
+  const handleSubmit = (e) => {
+    // 阻擋表單預設送出行為
+    e.preventDefault()
+
+    // 表單檢查---START---
+    // 建立一個新的錯誤訊息物件
+    const newErrors = { username: '', password: '' }
+
+    // if (user.username === '') {
+    // 上面寫法常見改為下面這樣，`if(user.username)` 代表有填寫，
+    // 所以反相判斷 `if(!user.username)` 代表沒填寫
+    if (!user.username) {
+      newErrors.username = '帳號為必填'
+    }
+
+    if (user.password === '') {
+      newErrors.password = '密碼為必填'
+    }
+
+    // 檢查完設定到狀態中
+    setErrors(newErrors)
+
+    // 物件屬性值中有非空白字串時，代表有錯誤發生
+    const hasErrors = Object.values(newErrors).some((v) => v)
+
+    if (hasErrors) {
+      return // 函式中作流程控制，會跳出函式不執行之後的程式碼
+    }
+    // 表單檢查--- END ---
+
+    // 檢查沒問題後再送到伺服器
+    alert('送到伺服器')
+  }
+
   return (
     <>
       <h1>會員登入表單</h1>
-      <form onSubmit={() => {}}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>
             {/* 使用表單元素都應給name屬性 */}
@@ -37,6 +78,7 @@ export default function LoginForm() {
             />
           </label>
         </div>
+        <div className="error">{errors.username} </div>
         <div>
           <label>
             密碼:{' '}
@@ -48,6 +90,7 @@ export default function LoginForm() {
             />
           </label>
         </div>
+        <div className="error">{errors.password}</div>
         <div>
           <input
             type="checkbox"
@@ -59,9 +102,19 @@ export default function LoginForm() {
           顯示密碼
         </div>
         <div>
+          {/* form標記中的button最好加上類型，預設是submit，會觸發表單的submit事件 */}
           <button type="submit">登入</button>
         </div>
       </form>
+      <style jsx>
+        {`
+          .error {
+            color: red;
+            font-size: 13px;
+            height: 16px;
+          }
+        `}
+      </style>
     </>
   )
 }
