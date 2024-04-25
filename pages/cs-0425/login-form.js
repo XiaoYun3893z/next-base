@@ -5,12 +5,14 @@ export default function LoginForm() {
   const [user, setUser] = useState({
     username: '',
     password: '',
+    password2: '',
   })
 
   // 記錄欄位錯誤訊息的狀態
   const [errors, setErrors] = useState({
     username: '',
     password: '',
+    password2: '',
   })
 
   // 顯示密碼的核取方塊用
@@ -34,7 +36,7 @@ export default function LoginForm() {
 
     // 表單檢查---START---
     // 建立一個新的錯誤訊息物件
-    const newErrors = { username: '', password: '' }
+    const newErrors = { username: '', password: '', password2: '' }
 
     // if (user.username === '') {
     // 上面寫法常見改為下面這樣，`if(user.username)` 代表有填寫，
@@ -43,8 +45,21 @@ export default function LoginForm() {
       newErrors.username = '帳號為必填'
     }
 
+    if (user.password && user.password.length < 6) {
+      newErrors.password = '密碼至少6個字元'
+    }
+
     if (user.password === '') {
       newErrors.password = '密碼為必填'
+    }
+
+    if (user.password2 === '') {
+      newErrors.password2 = '確認密碼為必填'
+    }
+
+    if (user.password !== user.password2) {
+      newErrors.password = '密碼與確認密碼需要相同'
+      newErrors.password2 = '密碼與確認密碼需要相同'
     }
 
     // 檢查完設定到狀態中
@@ -90,9 +105,6 @@ export default function LoginForm() {
               onChange={handleFieldChange}
             />
           </label>
-        </div>
-        <div className="error">{errors.password}</div>
-        <div>
           <input
             type="checkbox"
             checked={showPassword}
@@ -102,6 +114,20 @@ export default function LoginForm() {
           />
           顯示密碼
         </div>
+        <div className="error">{errors.password}</div>
+        <div>
+          <label>
+            確認密碼:{' '}
+            <input
+              type="password"
+              name="password2"
+              value={user.password2}
+              onChange={handleFieldChange}
+            />
+          </label>
+        </div>
+        <div className="error">{errors.password2}</div>
+
         <div>
           {/* form標記中的button最好加上類型，預設是submit，會觸發表單的submit事件 */}
           <button type="submit">登入</button>
