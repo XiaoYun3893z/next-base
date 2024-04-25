@@ -53,6 +53,7 @@ export default function LoginForm() {
     // 物件屬性值中有非空白字串時，代表有錯誤發生
     const hasErrors = Object.values(newErrors).some((v) => v)
 
+    // 有錯誤發生，不送到伺服器去
     if (hasErrors) {
       return // 函式中作流程控制，會跳出函式不執行之後的程式碼
     }
