@@ -58,12 +58,14 @@ export default function List() {
 
   return (
     <>
-      <h1>商品列表頁</h1>
+      <h1>商品列表頁(查詢字串qs)</h1>
       <ul>
         {products.map((v, i) => {
           return (
             <li key={v.id}>
-              <Link href={`/cs-0507/product/${v.id}`}>{v.name}</Link>
+              <Link href={`/cs-0507/product-qs/detail?pid=${v.id}`}>
+                {v.name}
+              </Link>
             </li>
           )
         })}
