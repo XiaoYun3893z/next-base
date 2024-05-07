@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
+import { loadProducts } from '@/services/product'
+
 // 資料夾的中的`list.js`檔案代表靜態or固定的路由，例如 `/product/list` 就是這個檔案
 
 // 資料來源:
@@ -31,16 +33,9 @@ export default function List() {
   const [products, setProducts] = useState([])
 
   const getProducts = async () => {
-    const url =
-      'https://my-json-server.typicode.com/eyesofkids/json-fake-data/products'
-
     // 要使用try...catch陳述式，讓與伺服器連線作REST更穩健
     try {
-      const res = await fetch(url)
-      const data = await res.json()
-
-      console.log(data)
-
+      const data = await loadProducts()
       // 設定到狀態中 ===> 進入update階段，觸發重新渲染(re-render) ===> 顯示資料
       // 確定資料是陣列資料類型才設定到狀態中(最基本的保護)
       if (Array.isArray(data)) {

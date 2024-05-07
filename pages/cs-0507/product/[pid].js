@@ -6,6 +6,8 @@ import Link from 'next/link'
 // 載入指示動畫
 import Loader from '@/components/loader'
 
+import { loadProduct } from '@/services/product'
+
 // 資料夾的中的`[pid].js`檔案代表這路由中，除了根路由與靜態路由之外的所有路由，例如 `/product/123` 就是這個檔案
 // 資料來源:
 // https://my-json-server.typicode.com/eyesofkids/json-fake-data/products/${pid}
@@ -30,12 +32,13 @@ export default function Detail() {
   const [isLoading, setIsLoading] = useState(true)
 
   const getProduct = async (pid) => {
-    const url = `https://my-json-server.typicode.com/eyesofkids/json-fake-data/products/${pid}`
+    // const url = `https://my-json-server.typicode.com/eyesofkids/json-fake-data/products/${pid}`
 
     // 要使用try...catch陳述式，讓與伺服器連線作REST更穩健
     try {
-      const res = await fetch(url)
-      const data = await res.json()
+      // const res = await fetch(url)
+      // const data = await res.json()
+      const data = await loadProduct(pid)
 
       console.log(data)
 
